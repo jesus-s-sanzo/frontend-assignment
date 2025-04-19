@@ -200,3 +200,9 @@ button:focus-visible {
 .favorite-icon.favorite {
     color: red; /* Full heart when marked as favorite */
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

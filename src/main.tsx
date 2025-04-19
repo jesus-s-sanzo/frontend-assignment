@@ -6,7 +6,7 @@ import React from 'react'
 
 console.log('This is main.tsx');
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <App />
-  </StrictMode>,
+  // </StrictMode>,
 )

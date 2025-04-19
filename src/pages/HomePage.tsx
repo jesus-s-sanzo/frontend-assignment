@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import MovieList from '../components/MovieList';
-import { fetchMovies } from '../services/api';
+import { fetchMovies, resetPageCounter } from '../services/api';
 
 interface Movie {
     id: number;
     name: string;
-    image: { medium: string, original: string } | null;
+    image: { medium: string; original: string } | null;
     summary: string | null;
     rating: { average: number } | null;
     officialSite: string | null;
@@ -15,32 +15,69 @@ interface Movie {
 
 const HomePage: React.FC = () => {
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        // Reset the page counter when the component mounts
+        resetPageCounter();
+
         const fetchData = async () => {
+            setLoading(true);
             try {
-                const data = await fetchMovies();
-                setMovies(data as Movie[]);
+                const newMovies = await fetchMovies();
+                setMovies((prevMovies) => [
+                    ...prevMovies,
+                    ...newMovies.map((movie) => ({
+                        ...movie,
+                        rating: {
+                            ...movie.rating,
+                            average: movie.rating?.average ?? 0, // Default null to 0
+                        },
+                    })),
+                ]); // Append new movies
             } catch (err) {
                 setError('Failed to fetch movies.');
             } finally {
-                setLoading(false); // Mark loading as complete
+                setLoading(false);
             }
         };
 
-        if (loading) { // Only fetch if loading is true
-            fetchData();
-        }
-    }, [loading]); // Dependency array ensures this runs only when `loading` changes
+        fetchData();
+    }, []); // Empty dependency array ensures this runs only once
 
-    if (loading) return <div>Loading...</div>;
+    const handleLoadMore = async () => {
+        try {
+            const newMovies = await fetchMovies();
+            setMovies((prevMovies) => [
+                ...prevMovies,
+                ...newMovies.map((movie) => ({
+                    ...movie,
+                    rating: {
+                        ...movie.rating,
+                        average: movie.rating?.average ?? 0, // Default null to 0
+                    },
+                })),
+            ]); // Append new movies
+        } catch (err) {
+            setError('Failed to load more movies.');
+        }
+    };
+
+    if (loading && movies.length === 0) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
     return (
         <div>
             <MovieList movies={movies} />
+            {!loading && (
+                <div className="button-container">
+                    <button onClick={handleLoadMore}>
+                        Load More
+                    </button>
+                </div>
+            )}
+            {loading && <div>Loading more movies...</div>}
         </div>
     );
 };
