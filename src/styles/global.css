@@ -1,0 +1,202 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #2c2c2c; /* Medium gray background */
+  color: #fff;
+}
+
+#root{
+  width: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.app-logo {
+  width: 100px;
+  height: 100px;
+  margin-right: 16px;
+}
+
+.app-title {
+  font-size: 4rem;
+  color: #ffcc00; /* Matches the movie card title color */
+  text-align: center;
+  margin: 0;
+}
+
+.movie-card-title{
+  color: #ffcc00;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Ensure the grid layout displays as many cards as possible in a row */
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Dynamically fit cards */
+  gap: 16px;
+  padding: 16px;
+  justify-items: stretch; /* Ensure cards stretch to fill available space */
+}
+
+/* Base card style */
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1c1c1c; /* Default dark gray background */
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Expanded card style */
+.movie-card.expanded {
+  grid-column: 1 / -1; /* Make the card span the entire row */
+  flex-direction: row;
+  height: auto;
+  background-color: #0d1c36;
+}
+
+/* Image styling */
+.movie-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.movie-card.expanded .movie-card-image {
+  width: 40%;
+  height: auto;
+}
+
+/* Content styling */
+.movie-card-content {
+  padding: 16px;
+  flex: 1;
+}
+
+/* Additional details for expanded cards */
+.movie-card-details {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+/* Footer styling */
+.movie-card-footer {
+  margin-top: 16px;
+}
+
+/* Hover effect */
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Summary styling */
+.movie-card-summary {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  color: #ccc;
+  max-height: 60px; /* Truncate summary for non-expanded cards */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card-summary.expanded {
+  max-height: none; /* Allow full summary when expanded */
+  overflow: visible;
+}
+
+.favorite-icon {
+    font-size: 24px;
+    color: red;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.favorite-icon:hover {
+    transform: scale(1.2);
+}
+
+.favorite-icon.favorite {
+    color: red; /* Full heart when marked as favorite */
+}
