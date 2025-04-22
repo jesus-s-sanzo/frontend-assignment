@@ -18,35 +18,8 @@ const HomePage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        // Reset the page counter when the component mounts
-        resetPageCounter();
-
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const newMovies = await fetchMovies();
-                setMovies((prevMovies) => [
-                    ...prevMovies,
-                    ...newMovies.map((movie) => ({
-                        ...movie,
-                        rating: {
-                            ...movie.rating,
-                            average: movie.rating?.average ?? 0, // Default null to 0
-                        },
-                    })),
-                ]); // Append new movies
-            } catch (err) {
-                setError('Failed to fetch movies.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []); // Empty dependency array ensures this runs only once
-
-    const handleLoadMore = async () => {
+    const loadMovies = async () => {
+        setLoading(true);
         try {
             const newMovies = await fetchMovies();
             setMovies((prevMovies) => [
@@ -60,9 +33,17 @@ const HomePage: React.FC = () => {
                 })),
             ]); // Append new movies
         } catch (err) {
-            setError('Failed to load more movies.');
+            setError('Failed to fetch movies.');
+        } finally {
+            setLoading(false);
         }
     };
+
+    useEffect(() => {
+        // Reset the page counter when the component mounts
+        resetPageCounter();
+        loadMovies(); // Fetch the initial set of movies
+    }, []); // Empty dependency array ensures this runs only once
 
     if (loading && movies.length === 0) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -72,7 +53,7 @@ const HomePage: React.FC = () => {
             <MovieList movies={movies} />
             {!loading && (
                 <div className="button-container">
-                    <button onClick={handleLoadMore}>
+                    <button onClick={loadMovies}>
                         Load More
                     </button>
                 </div>
