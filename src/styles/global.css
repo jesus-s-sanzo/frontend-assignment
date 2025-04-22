@@ -177,7 +177,8 @@ button.dark-mode-toggle {
 /* Additional details for expanded cards */
 .movie-card-details {
   margin-top: 16px;
-  font-size: 0.9rem;
+  font-size: 1.2rem; /* Increased font size for better readability */
+  line-height: 1.0; /* Adjusted line height for better spacing */
   color: #ccc;
 }
 
@@ -209,6 +210,9 @@ button.dark-mode-toggle {
 }
 
 .movie-card-summary.expanded {
+  font-size: 1.3rem; /* Increased font size for the description */
+  line-height: 1.6; /* Adjusted line height for better readability */
+  color: #e0e0e0; /* Slightly lighter color for better contrast */
   max-height: none; /* Allow full summary when expanded */
   overflow: visible;
 }
@@ -220,7 +224,7 @@ button.dark-mode-toggle {
     transition: transform 0.2s ease;
 }
 
-.favorite-icon:hover {
+favorite-icon:hover {
     transform: scale(1.2);
 }
 
