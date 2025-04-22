@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface MovieCardProps {
     id: number;
@@ -12,7 +12,7 @@ interface MovieCardProps {
     onFavoriteToggle: (id: number) => void;
     isExpanded: boolean;
     onCardClick: (id: number) => void;
-    rating?:  number | null;
+    rating?: number | null;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({
@@ -29,6 +29,14 @@ const MovieCard: React.FC<MovieCardProps> = ({
     onCardClick,
     rating,
 }) => {
+    const cardRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (isExpanded && cardRef.current) {
+            cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, [isExpanded]);
+
     const handleCheckboxClick = (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent the parent onClick from being triggered
     };
@@ -39,6 +47,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
 
     return (
         <div
+            ref={cardRef} // Attach the ref to the card
             id={`movie-card-${id}`} // Add a unique ID for each card
             className={`movie-card ${isExpanded ? 'expanded' : ''}`}
             onClick={() => onCardClick(id)}
@@ -66,7 +75,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
                     <div className="movie-card-details">
                         <p><strong>Genres:</strong> {genres.join(', ')}</p>
                         <p><strong>Premiered:</strong> {premiered || 'Unknown'}</p>
-                        <p><strong>Rating:</strong> {rating || 'N/A'}</p> {}
+                        <p><strong>Rating:</strong> {rating || 'N/A'}</p>
                         {officialSite && (
                             <p>
                                 <strong>Official Site:</strong>{' '}
