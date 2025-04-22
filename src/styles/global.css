@@ -25,9 +25,16 @@ a:hover {
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   background-color: #2c2c2c; /* Medium gray background */
   color: #fff;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
 #root{
@@ -47,6 +54,7 @@ body {
   width: 100%;
   background-color: #ffcc00;
   margin-bottom: 32px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 .app-header-background {
   display: flex;
@@ -61,8 +69,9 @@ body {
 }
 
 .app-title {
-  font-size: 4rem;
-    color: #213547;/* Matches the movie card title color */
+  font-size: 3rem;
+  font-weight: bold;
+  color: #213547;/* Matches the movie card title color */
   text-align: center;
   margin: 0;
 }
@@ -77,22 +86,30 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+    background-color: #ffcc00;
+    color: #2c2c2c;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
 button:hover {
-  border-color: #646cff;
+    background-color: #e6b800;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+button:focus {
+    outline: 3px solid #ffcc00;
+}
+
+button.dark-mode-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #2c2c2c;
+    color: #ffcc00;
 }
 
 @media (prefers-color-scheme: light) {
@@ -121,7 +138,7 @@ button:focus-visible {
 .movie-card {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
+  border-radius: 12px; /* Softer corners */
   overflow: hidden;
   background-color: #1c1c1c; /* Default dark gray background */
   color: #fff;
@@ -136,6 +153,7 @@ button:focus-visible {
   flex-direction: row;
   height: auto;
   background-color: #0d1c36;
+  transition: all 0.3s ease;
 }
 
 /* Image styling */
@@ -174,6 +192,11 @@ button:focus-visible {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* Favorite card style */
+.movie-card.favorite {
+  border: 2px solid #ffcc00; /* Highlight favorite movies */
+}
+
 /* Summary styling */
 .movie-card-summary {
   font-size: 0.9rem;
@@ -209,4 +232,33 @@ button:focus-visible {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #ffcc00;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .app-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .app-title {
+        font-size: 2.5rem;
+    }
 }
